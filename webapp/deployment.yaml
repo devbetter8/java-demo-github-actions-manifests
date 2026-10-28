@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  labels:
+    app: webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+        - name: webapp
+          # Mis à jour automatiquement par GitHub Actions à chaque livraison.
+          image: localhost:8082/webapp-java:initial
+          ports:
+            - containerPort: 8080
+          env:
+            # Valeurs affichées sur la page d'accueil, mises à jour par la CI.
+            - name: IMAGE_TAG
+              value: "initial"
+            - name: BUILD_NUMBER
+              value: "0"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5

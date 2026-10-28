@@ -1,0 +1,24 @@
+# Application Argo CD. À appliquer une seule fois :
+# kubectl apply -n argocd -f argocd/application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: webapp
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/devbetter8/java-demo-github-actions-manifests.git
+    targetRevision: main
+    path: webapp
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: webapp
+  syncPolicy:
+    automated:
+      # Supprime du cluster ce qui a été retiré du repo.
+      prune: true
+      # Annule les modifications faites à la main dans le cluster.
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

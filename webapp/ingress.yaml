@@ -1,0 +1,17 @@
+# Traefik est installé par défaut avec k3s.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webapp
+spec:
+  ingressClassName: traefik
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: webapp
+                port:
+                  number: 80
