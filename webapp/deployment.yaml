@@ -17,15 +17,15 @@ spec:
       containers:
         - name: webapp
           # Mis à jour automatiquement par GitHub Actions à chaque livraison.
-          image: localhost:8082/webapp-java:initial
+          image: localhost:8082/webapp-java:f3ce0c8
           ports:
             - containerPort: 8080
           env:
             # Valeurs affichées sur la page d'accueil, mises à jour par la CI.
             - name: IMAGE_TAG
-              value: "initial"
+              value: "f3ce0c8"
             - name: BUILD_NUMBER
-              value: "0"
+              value: "3"
           readinessProbe:
             httpGet:
               path: /
